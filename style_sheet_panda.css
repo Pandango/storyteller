@@ -14,6 +14,19 @@ div{
    padding-bottom:130px;   /* Height of the footer */
 }
 
+.btn-center{	
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+}
+
+#btn-readmore{
+	margin-top: 30px; 
+	margin-bottom: 30px;
+	display: inherit; 
+	padding-right: 80px; 
+	padding-left: 80px; 
+}
 #container{
 	min-height:100%;
 	position: relative;
@@ -96,6 +109,7 @@ div{
 }
 /* Reposition the controls slightly */
 .carousel-control-new {
+
 	left: -12px;
 	background: transparent;
 	height: 0px;
@@ -111,11 +125,28 @@ div{
 	margin-right: -19px;
 }
 /* Changes the colour of the indicators */
-.carousel-indicators li {
-	background: #c0c0c0;
+.carousel-indicators-new li {
+	display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: #000\9;
+    background-color: rgba(0,0,0,0);
+    border: 1px solid #F58C68;
+    border-radius: 10px;
 }
-.carousel-indicators .active {
-background: #333333;
+.carousel-indicators-new .active-new {
+	width: 12px;
+    height: 12px;
+    margin: 0;
+    background-color: #F58C68;
+}
+
+.content-genre{
+	position: absolute;
+    right: 0px;
 }
 
 .dropdown{
@@ -213,14 +244,11 @@ background: #333333;
 }
 
 .content-card-latest{
+	margin-top: 10px;
 	width:100%;
 	background-color:#fff; 
-	height: 800px; 
+	height: 250px; 
 	border: solid 1px #e2e2e2;
-}
-
-.content-header{
-
 }
 
 .footer{
