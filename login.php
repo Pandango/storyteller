@@ -1,3 +1,11 @@
+<?php
+		require_once 'f_checkuser.php';
+			//var_dump($_SESSION['username']);
+			//var_dump($_SESSION['password']);
+		if(isset($_SESSION['username']))
+			header('Location: http://localhost/storyteller-demo/home.php');
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,6 +24,7 @@
 		<title></title>
 	</head>
 	<body>
+
 		<div id="container">
 		<!-- Header -->
 		<div class="nav nav-bg">
@@ -26,22 +35,44 @@
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<input type="text" class="nav-search" placeholder="Search...">
 				</div>
-				<div class="col-md-2"></div>
+				<?php
+					if(isset($_SESSION['username']))
+						echo '<div class="col-md-1"></div>';						
+					else
+						echo '<div class="col-md-2"></div>';
+				?>
 				<div class="col-md-1">
-					<a href="" class="nav-link">Home</a>
+					<a href="home.php" class="nav-link">Home</a>
 				</div>
 				<div class="col-md-1 dropdown">
 					<a href="" class="nav-link drop-btn">Article</a>
 					<div class="dropdown-content">
-						<a href="">Experience</a>
-						<a href="">Short Story</a>
-						<a href="">Review</a>
-						<a href="">Knowledge</a>
+						<a href="article.php?article=Experience">Experience</a>
+						<a href="article.php?article=Short%20story">Short Story</a>
+						<a href="article.php?article=Review">Review</a>
+						<a href="article.php?article=Knowledge">Knowledge</a>
 					</div>
 				</div>
-				<div class="col-md-1">
-					<a href="" class="nav-link">Login</a>
-				</div>
+				<?php
+					if(isset($_SESSION['username'])){
+						echo'<div class="col-md-1">
+								<a href="" class="nav-link">Create</a>
+							</div>';
+						echo '<div class="col-md-1 dropdown">
+								<a href="">
+								<img class="ui avatar image" src="images\user\default.png">
+								</a>
+								<div class="dropdown-content">
+									<a href="">User Profile</a>
+									<a href="">Setting</a>
+									<a href="logout.php">Log Out</a>
+								</div>
+							</div>';																		
+					}
+					else{
+						echo '<div class="col-md-1"><a href="login.php" class="nav-link">Login</a></div>';
+					}
+				?>
 			</div>
 		</div>
 
@@ -49,30 +80,46 @@
 		<div class="w-con main-container" id="body">
 			<div class="login-container">
 				<div class="login-header nav-bg">
-					<div class="card-container text-header">Register</div>
+					<div class="card-container text-header">Login</div>
 				</div>
+				<form action="login.php" method="POST">
 				<div class="form-group">
-					<div class="content-container" style="margin-top: 20px;">
-						<p class="text-content">Email :</p>
-						<input type="text" class="form-control" placeholder="Email">
+						<div class="content-container" style="margin-top: 30px;">
+							<p class="text-content">Username :</p>
+							<input type="text" class="form-control" name="username" placeholder="Username">
+						</div>
+						<div class="content-container" style="margin-top: 20px;">
+							<p class="text-content">Password :</p>
+							<input type="text" class="form-control" name="password" placeholder="Password">
+						</div>
+						<div class="content-container">
+							<div style="float:right;">
+								<label class="text-content">
+									<a href="#">Forgot Password ?</a>
+								</label>
+							</div>
+
+							<div class="checkbox" style="width:400px">
+								<label class="text-content">
+									<input type="checkbox"> Remember Me
+								</label>
+							</div>
+							
+						</div>
+						<div class="content-container" style="margin-top: 50px;">
+							<button type="submit" class="login-btn">Log in</button>
+							<a href="home.php" class="login-btn">
+								Cancel
+							</a>
+						</div>
+						<div class="content-container" style="margin-top: 20px;">
+							<p class="text-content">
+								If you didn't have any account, please 
+								<a href="register.php">Register Here</a>
+							</p>
+						</div>
 					</div>
-					<div class="content-container" style="margin-top: 20px;">
-						<p class="text-content">Username :</p>
-						<input type="text" class="form-control" placeholder="Username">
-					</div>
-					<div class="content-container" style="margin-top: 20px;">
-						<p class="text-content">Password :</p>
-						<input type="text" class="form-control" placeholder="********">
-					</div>
-					<div class="content-container" style="margin-top: 20px;">
-						<p class="text-content">Confirm Password :</p>
-						<input type="text" class="form-control" placeholder="********">
-					</div>
-					<div class="content-container" style="margin-top: 50px;">
-						<button type="submit" class="login-btn">Sign Up</button>
-						<button type="submit" class="login-btn">Cancel</button>
-					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 

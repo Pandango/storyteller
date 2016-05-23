@@ -1,8 +1,6 @@
 <?php
-	require_once 'f_checkuser.php';	
-	$getGenre = $_GET['article'];
+	require_once 'f_checkuser.php';					
 ?>
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -38,8 +36,6 @@
 		<title></title>
 	</head>
 	<body>
-
-		<?php var_dump($_GET['article']);?>
 	<div id="container">
 		<!-- Header -->
 		<div class="nav nav-bg">
@@ -90,71 +86,36 @@
 				?>
 			</div>
 		</div>
-		
 		<!-- Content -->
 		<div class="w-con main-container" id="body">
-		
-		<h3 style="margin-top:30px;"><?=$getGenre?></h3>
+		<h3 style="margin-top:30px;">Popular Article</h3>
 		<hr>
-			<?php
-				$getGenre = $_GET['article'];
-				$username = "root";
-				$password = "";
-				$dbname = "articlewebsite";
-				$hostname = "localhost";
-				
-				$connection = new mysqli($hostname,$username,$password,$dbname);
-				
-				$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId WHERE genre = '$getGenre' ORDER BY storyLike DESC LIMIT 0,10";
+		<div id="myCarousel" class="carousel slide">
+			<div class="carousel-inner">
+					<div class="item active">
+						<div class="row">
+						<div w3-include-html="f_findPopular.php"></div>
+						</div>
+					</div>
+				<div class="item">
+						<div class="row">
+						<div w3-include-html="f_findPopulartNext.php"></div>
+						</div>
+				</div>
 
-				if($result = $connection->query($query));
-				{
-					while ($data = $result->fetch_assoc()) {
-						echo '<div class="content-card-latest">					
-								<div style="float:left;">
-									<img style="width:300px; height:100% postion:relative;" src="images\articleCover\default-cover.png">
-								</div>';
-
-						switch ($data["genre"]) {
-									case 'Experience':
-										$genreIcon = "fa fa-flag";
-										break;
-									case 'Short story':
-										$genreIcon = "fa fa-book";
-										break;
-									case 'Review':
-										$genreIcon = "fa fa-eye";
-										break;
-									case 'Knowledge':
-										$genreIcon = "fa fa-flask";
-										break;
-								}		
-
-						echo '<div style="float:left; position:relative; width:560px; margin-top:20px; padding-bottom:20px; margin:20px;">
-								<div class="content-genre">
-									<i class="'.$genreIcon.'" aria-hidden="true"></i>
-									<span style="padding-left:5px;">'.$data["genre"].'</span>
-								</div>';
-
-						echo			"<div>
-										<h3>".$data['storyName']."</h3>";
-						echo			"<span>".$data['storyDetail']."</span>";
-						echo			'<hr>
-										</div>	
-									<div style="position:absolute; clear: both; float: left; padding-bottom:20px; bottom:0px;">
-										<div style="display:inline;">'.
-										'<img class="ui avatar image" src="images\user\default.png">'.$data['username'].'</div>'.
-									'</div>	
-									<div style="bottom:0px; text-align:right; padding:5px;">'.$data['storyDate'].'</div>																		
-								</div>				
-						</div>';
-					}
-						$result->free();
-				}
-
-				$connection->close();
-			?>
-
+				</div>
+				<a style="width: 20px; background:transparent;" class="left carousel-control" href="#myCarousel" data-slide="prev">
+					<span class="icon-prev" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a style="width: 20px; background:transparent;" class="right carousel-control" href="#myCarousel" data-slide="next">
+					<span class="icon-next" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>	
+		<h3>Latest Article</h3>
+		<hr>	
+			<div w3-include-html="f_findLatest.php"></div>
 		<button type="button" id="btn-readmore" class="btn-center btn btn-default" >Read More...</button>		
 	</div>
 		
@@ -196,6 +157,7 @@
 			</div>
 			
 		</div>
+
 		<script>
 			w3IncludeHTML();
 		</script>

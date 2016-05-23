@@ -1,3 +1,11 @@
+<?php
+		require_once 'f_checkuser.php';
+			//var_dump($_SESSION['username']);
+			//var_dump($_SESSION['password']);
+		if(isset($_SESSION['username']))
+			header('Location: http://localhost/storyteller-demo/home.php');
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,6 +24,7 @@
 		<title></title>
 	</head>
 	<body>
+
 		<div id="container">
 		<!-- Header -->
 		<div class="nav nav-bg">
@@ -49,30 +58,44 @@
 		<div class="w-con main-container" id="body">
 			<div class="login-container">
 				<div class="login-header nav-bg">
-					<div class="card-container text-header">Register</div>
+					<div class="card-container text-header">Login</div>
 				</div>
+				<form action="login.php" method="POST">
 				<div class="form-group">
-					<div class="content-container" style="margin-top: 20px;">
-						<p class="text-content">Email :</p>
-						<input type="text" class="form-control" placeholder="Email">
+						<div class="content-container" style="margin-top: 30px;">
+							<p class="text-content">Username :</p>
+							<input type="text" class="form-control" name="username" placeholder="Username">
+						</div>
+						<div class="content-container" style="margin-top: 20px;">
+							<p class="text-content">Password :</p>
+							<input type="text" class="form-control" name="password" placeholder="Password">
+						</div>
+						<div class="content-container">
+							<div style="float:right;">
+								<label class="text-content">
+									<a href="#">Forgot Password ?</a>
+								</label>
+							</div>
+
+							<div class="checkbox" style="width:400px">
+								<label class="text-content">
+									<input type="checkbox"> Remember Me
+								</label>
+							</div>
+							
+						</div>
+						<div class="content-container" style="margin-top: 50px;">
+							<button type="submit" class="login-btn">Log in</button>
+							<button type="submit" class="login-btn">Cancel</button>
+						</div>
+						<div class="content-container" style="margin-top: 20px;">
+							<p class="text-content">
+								If you didn't have any account, please 
+								<a href="">Register Here</a>
+							</p>
+						</div>
 					</div>
-					<div class="content-container" style="margin-top: 20px;">
-						<p class="text-content">Username :</p>
-						<input type="text" class="form-control" placeholder="Username">
-					</div>
-					<div class="content-container" style="margin-top: 20px;">
-						<p class="text-content">Password :</p>
-						<input type="text" class="form-control" placeholder="********">
-					</div>
-					<div class="content-container" style="margin-top: 20px;">
-						<p class="text-content">Confirm Password :</p>
-						<input type="text" class="form-control" placeholder="********">
-					</div>
-					<div class="content-container" style="margin-top: 50px;">
-						<button type="submit" class="login-btn">Sign Up</button>
-						<button type="submit" class="login-btn">Cancel</button>
-					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 
