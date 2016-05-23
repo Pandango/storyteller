@@ -44,8 +44,10 @@
 				<div class="col-md-2"> LOGO </div>
 				<div class="col-md-1"></div>
 				<div class="col-md-4 nav-search-con">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<input type="text" class="nav-search" placeholder="Search...">
+					<form action="search.php" methos="GET">
+						<input type="text" class="nav-search" name="search" placeholder="Search...">
+						<button type="submit"style="border: 0; padding: 0; display: inline; background: none;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+					</form>
 				</div>
 				<?php
 					if(isset($_SESSION['username']))
@@ -90,18 +92,20 @@
 
 		<!-- Content -->
 		<div class="w-con main-container" id="body">
-			<div class="main-container ">
-				<div class="img-container" style="height: 250px;"> 
-					<img src="" class="img-fluid" alt="test" style="height: auto;">
-					<button class="btn img-btn">
-						<i class="fa fa-camera fa-2x" aria-hidden="true"></i>
-					</button>
-				</div>
-				<div>
-					
-				</div>
-				<div class="form-group container-border">
-
+			<form action="f_create.php" method="POST">
+				<!--author Name-->
+				<input type="hidden" name="author" value=<?= $_SESSION['username'] ?>>
+				<div class="main-container ">
+					<div class="img-container" style="height: 250px;"> 
+						<img src="" class="img-fluid" alt="test" style="height: auto;">
+						<button class="btn img-btn">
+							<i class="fa fa-camera fa-2x" aria-hidden="true"></i>
+						</button>
+					</div>
+					<div>
+						
+					</div>
+					<div class="form-group container-border">
 						<div class="content-container" style="margin-top: 30px;">
 							<p class="text-header-miner">Article Name :</p>
 							<input type="text" class="form-control" name="articleName"placeholder="Article Name">
@@ -119,7 +123,7 @@
 									<select class="form-control" name="choose-genre">
 										<option selected="true" disabled="true">Select</option>
 										<option value="experience">Experince</option>
-										<option value="short-story">Short Story</option>
+										<option value="short story">Short Story</option>
 										<option value="review">Review</option>
 										<option value="knowledge">Knowledge</option>
 									</select>
@@ -132,10 +136,9 @@
 							</div>
 
 						</div>	
-
-
+					</div>
 				</div>
-			</div>
+			</form>
 		</div>
 
 		<!-- Footer -->

@@ -110,7 +110,7 @@
 				if($result = $connection->query($query));
 				{
 					while ($data = $result->fetch_assoc()) {
-						echo '<div class="content-card-latest">					
+					echo '<a style="color:#262626;" href="read-article.php?storyId='.$data['storyId'].'"><div class="content-card-latest">					
 								<div style="float:left;">
 									<img style="width:300px; height:100% postion:relative;" src="images\articleCover\default-cover.png">
 								</div>';
@@ -130,29 +130,28 @@
 										break;
 								}		
 
-						echo '<div style="float:left; position:relative; width:560px; margin-top:20px; padding-bottom:20px; margin:20px;">
+						echo '<div style="float:left; position:relative; width:560px; margin-top:20px; margin:20px;">
 								<div class="content-genre">
 									<i class="'.$genreIcon.'" aria-hidden="true"></i>
 									<span style="padding-left:5px;">'.$data["genre"].'</span>
 								</div>';
 
-						echo			"<div>
-										<h3>".$data['storyName']."</h3>";
-						echo			"<span>".$data['storyDetail']."</span>";
+						echo			"<div style='height:180px;'>
+											<h2 class='content header'>".$data['storyName']."</h2>";
+						echo				"<div style='height : 100px;'><span>".$data['storyDetail']."</span></div>";
 						echo			'<hr>
 										</div>	
-									<div style="position:absolute; clear: both; float: left; padding-bottom:20px; bottom:0px;">
+									<div style="position:absolute; clear: both; float: left; bottom:0px;">
 										<div style="display:inline;">'.
 										'<img class="ui avatar image" src="images\user\default.png">'.$data['username'].'</div>'.
 									'</div>	
 									<div style="bottom:0px; text-align:right; padding:5px;">'.$data['storyDate'].'</div>																		
 								</div>				
-						</div>';
-					}
-						$result->free();
-				}
+						</div></a>';					}
+									$result->free();
+							}
 
-				$connection->close();
+							$connection->close();
 			?>
 
 		<button type="button" id="btn-readmore" class="btn-center btn btn-default" >Read More...</button>		

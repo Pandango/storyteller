@@ -18,7 +18,7 @@
 				    <img src="images\articleCover\default-cover.png">
 				</div>
 				<div class="content">
-				<a class="header">'.
+				<a class="header" href="read-article.php?storyId='.$data['storyId'].'">'.
 				    $data['storyName'].
 				'</a>';		   
 		echo	'<div class="description">'.
@@ -37,15 +37,4 @@
 		</div>';
 	}
 		$result->free();
-
-	// $storyName = $row['storyName'];
-	// $storygenre= $row['genre'];
-	// $storyDetail = $row['storyDetail'];
-	// $storyDate = $row['storyDate'];
-	// $storyLike = $row['storyLike'];
-	// $storyAuthor = $row['username'];
-	// $storyCover = $row['storyCover'];
-
-	// print_r($data['storyName']);
-
 ?>

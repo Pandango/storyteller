@@ -43,8 +43,10 @@
 				<div class="col-md-2"> LOGO </div>
 				<div class="col-md-1"></div>
 				<div class="col-md-4 nav-search-con">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<input type="text" class="nav-search" placeholder="Search...">
+					<form action="search.php" methos="GET">
+						<input type="text" class="nav-search" name="search" placeholder="Search...">
+						<button type="submit"style="border: 0; padding: 0; display: inline; background: none;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+					</form>
 				</div>
 				<?php
 					if(isset($_SESSION['username']))

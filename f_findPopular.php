@@ -12,6 +12,7 @@
 	$result = $connection->query($query);
 
 	while ($data = $result->fetch_assoc()) {
+		$storyId = $data['storyId'];
 		$storyName = $data['storyName'];
 		$storygenre= $data['genre'];
 		$storyDetail = $data['storyDetail'];
@@ -26,7 +27,7 @@
 					    <img src="images\articleCover\default-cover.png">
 					</div>
 				<div class="content">
-				<a class="header">'.$storyName.'</a>';		   
+				<a class="header" href="read-article.php?storyId='.$storyId.'">'.$storyName.'</a>';		   
 		echo	'<div class="description">'.$storyDetail.'</div>';
 		echo	'</div>
 				<div class="extra content">
@@ -39,8 +40,4 @@
 		</div>';
 	}
 		$result->free();
-
-
-	// print_r($data['storyName']);
-
 ?>
