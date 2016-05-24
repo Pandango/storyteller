@@ -159,7 +159,7 @@
 
 			$connection->close();
 
-			if(isset($storyCover)){
+			if(!isset($storyCover)){
 				$storyCover = "images/articleCover/default.png";
 			}
 			switch ($data["genre"]) {
