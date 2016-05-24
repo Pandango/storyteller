@@ -1,24 +1,19 @@
 <?php
 	require_once 'f_checkuser.php';	
-	$getGenre = $_GET['article'];
-	if(isset($_SESSION['userId'])){
-		$userId = $_SESSION['userId'];
-	}
-		
+	$userId = $_SESSION['userId'];			
 ?>
 
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset = "utf-8">
-		
 		<link rel="stylesheet" type="text/css" href="style_sheet_panda.css">
 
+		<link rel="stylesheet" type="text/css" href="stylesheets.css">
+
+		<link rel="stylesheet" type="text/css" href="style_sheet.css">
 		<!-- Jquery-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-	    <!-- Custom Fonts -->
-	    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-	    <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css"
 
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -29,23 +24,19 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-		<script src="http://www.w3schools.com/lib/w3data.js"></script>
-
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 
 		<link rel="stylesheet" type="text/css" href="semantic/semantic.min.css">
 		<script src="semantic/semantic.min.js"></script>
 		<script src="carousel.js"></script>
-
+		<script src="scriptcontrol.js"></script>
 		<script src="http://www.w3schools.com/lib/w3data.js"></script>
-
 		<title></title>
 	</head>
 	<body>
-	<div id="container">
+		<div id="container">
 		<?php
-		if(isset($userId)){
-				$username = "root";
+			$username = "root";
 				$password = "";
 				$dbname = "articlewebsite";
 				$hostname = "localhost";
@@ -60,14 +51,20 @@
 
 				$userPicture = $row['userPicture'];
 				$userCover = $row['userCover'];
-				$description = $row['description'];
-				$totalStories = $row['totalStories'];
+				$description = $row['description'];				
 				$following= $row['following'];
 				$followers = $row['followers'];
 		 
-			require_once 'f_checkResetPass.php';
-		}
- 		
+				$queryTotalStories = "SELECT COUNT(userId) AS 'sumstories' FROM stories WHERE userId = $userId";
+
+				$resultStorires = $connection->query($queryTotalStories);
+
+				$row = $resultStorires->fetch_assoc();
+
+				$totalStories = $row['sumstories'];
+
+				var_dump($totalStories);
+			require_once 'f_checkResetPass.php'; 		
 
 
 		?>
@@ -122,26 +119,72 @@
 				?>
 			</div>
 		</div>
+
 		<!-- Content -->
 		<div class="w-con main-container" id="body">
-		
-		<h3 style="margin-top:30px;"><?=$getGenre?></h3>
-		<hr>
+			<div class="profile-container" style="position:relative;">
+						
+				
+				<div class="form-group container-border" style="padding-bottom: 100px;">
+								<!--picture Upload-->
+					<div class="form-group" style="margin-top:70px;">
+						<div style="margin-left:35%;">
+							<img src=<?=$userPicture?> class="img-circle" style="width:200px; height:200px;">
+			   			</div>
+					</div>
+					<div class="content-container" style="margin-top: 30px; text-align: center;">
+						<h3 class="text-name"><?=$_SESSION['username']?></h3>
+						<p class="text-content"><?=$description?></p>
+						<div style="padding-left: 180px; padding-right: 180px;">						
+							<button type="submit" data-toggle="modal" data-target="#editProfile" class="login-btn" style="padding-top: 5px; padding-bottom: 5px;">Edit Profile</button>
+						</div>
+					</div>
+					<div class="content-container" style="margin-top: 20px; text-align: center;">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="col-md-4">
+								</div>
+								<div class="col-md-4">
+									<p class="text-like"><?=$totalStories?></p>
+								</div>
+								<div class="col-md-4">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="col-md-4">
+
+								</div>
+								<div class="col-md-4">
+									<p class="text-header-miner">totalStories</p>
+								</div>
+								<div class="col-md-4">
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-12" style="text-align: center; margin-top: 20px; margin-bottom: 50px">
+				<div class="col-md-4"><hr></div>
+				<div class="col-md-4">
+					<h1>My stories</h1>
+				</div>
+				<div class="col-md-4"><hr></div>
+			</div>
+			
+			<div class="card-container" style="margin-top: 80px; padding-top: 30px;">
+				
+			</div>
+			<!--card story-->
 			<?php
-				$getGenre = $_GET['article'];
-				$username = "root";
-				$password = "";
-				$dbname = "articlewebsite";
-				$hostname = "localhost";
-				
-				$connection = new mysqli($hostname,$username,$password,$dbname);
-				
-				$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId JOIN userprofile ON user.userId = userprofile.userId WHERE genre = '$getGenre' ORDER BY storyLike DESC LIMIT 0,10";
+				$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId JOIN userprofile ON user.userId = userprofile.userId WHERE stories.userId = $userId ORDER BY storyDate";
 
 				if($result = $connection->query($query));
 				{
 					while ($data = $result->fetch_assoc()) {
-						echo '<a style="color:#262626;" href="read-article.php?storyId='.$data['storyId'].'"><div class="content-card-latest">					
+					echo '<a style="color:#262626;" href="read-article.php?storyId='.$data['storyId'].'"><div class="content-card-latest">					
 						<div style="widht:300px; height:248px; float:left;">
 							<img style="max-width:100%; max-height:100%; postion:relative;" src="'.$data['storyCover'].'">
 						</div>';
@@ -176,19 +219,74 @@
 										<div style="display:inline;">'.
 										'<img class="ui avatar image" src="'.$data['userPicture'].'">'.$data['username'].'</div>'.
 									'</div>	
-									<div style="bottom:0px; text-align:right; padding:5px;">'.$data['storyDate'].'</div>																		
-								</div>				
-						</div></a>';					}
-									$result->free();
-							}
 
-							$connection->close();
-			?>
+									<div style="border-left: 1px solid #E0E0E0; text-align:right; float:right; clear:both;">
+										<div style="bottom: 0px;text-align: right; padding: 5px; float: right; display: inline;">
+												<a href="f_delete.php?delStoryId='.$data['storyId'].'" style="padding-left:5px;">
+												Delete
+												</a>
+										</div>
+									</div>
+									<div style="bottom:0px; text-align:right; padding:5px; float:right; display:inline; padding-right:10px;">'.$data['storyDate'].'</div>
+									</div>	
+												
+						</div></a>';
+					}
+						$result->free();
+				}
 
-			<div style="margin:50px;"></div>		
-	</div>
+				$connection->close();
+			?>	
+			<div style="margin:50px;"></div>							
+		</div>
+
+		<!-- Modal Edit Profile -->
+		<div class="modal fade" id="editProfile" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<form action="f_updateProfile.php" method="POST">
+			  <div class="modal-content">
+			    <div class="modal-header">
+			      <button type="button" class="close" data-dismiss="modal">&times;</button>
+			      <h4 class="modal-title">Edit Profile
+			      </h4>
+			    </div>
+			    <div class="modal-body">
+			    <div class="content-container">
+			    	<div class="form-group">
+						<!--picture Upload-->
+						<div class="form-group fileImage">
+							<div style="margin-left:40%;">
+								<div id="message"></div>
+								<input class="form-control" id="fileImage" name="fileImage" type="file">
+								<div id="photo-success" style=<?="background-image:url(".$userPicture.");"?> class="photo-default photo-circle-item" onclick="upload()">
+									
+									<div class="item-overlay"></div>
+									<i class="fa fa-camera fa-5x photo-icon"></i>
+									<span class="photo-des">Upload Photo</span>
+									<i class="fa fa-camera fa-3x photo-show-icon"></i>
+								</div>
+
+							</div>
+				   		</div>
+					</div>
+				    <div class="form-group" style="margin-top: 30px;">
+						<p class="text-content">Description :</p>
+						<input type="text" class="form-control" name="description" placeholder="Tell your Description" value='<?php echo $description; ?>'>
+					</div>				
+	    			
+			    </div>
+					
+			    </div>
+			    <div class="modal-footer">
+			    	<button type="submit" class="btn btn-default">Save</button>
+			     	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			    </div>
+			  </div>
+			</form>
+		</div>
+		</div>
+
 		
-
 	<!-- Footer -->
 		<div class="footer">
 			<div class="w-con footer-container">
@@ -226,10 +324,44 @@
 			</div>
 			
 		</div>
+
 		<script>
 			w3IncludeHTML();
+
+			function upload(){
+			  document.getElementById("fileImage").click();
+			}
+
+			$(document).ready(function()
+			{
+				 $('#fileImage').change(function(e) {
+				 	
+				 	var formData = new FormData($('#profile-data')[0]);
+					formData.append('fileImage', $('input[type=file]')[0].files[0]); 
+
+				 	e.preventDefault();
+
+				 	$.ajax({
+				 		url: 'photoupload.php',
+				 		type: 'POST',
+				 		data: formData,
+						contentType: false,
+						cache: false,
+						processData:false,
+						success: function(data){
+							$('#message').html(data);
+							var photo = $('#photo-direction').val();
+							$('#photo-success').removeClass('photo-default');
+							$('#photo-success').attr({
+								style : 'background-image : url(' + photo + '); background-size: 200px ,200px',
+							});
+
+
+						}
+				 	});
+				 }); 
+			});
 		</script>
+
 	</body>
-
-
 </html>

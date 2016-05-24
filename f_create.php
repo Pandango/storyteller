@@ -3,6 +3,7 @@
 	$getContent = $_POST['articleDetail'];
 	$getGenre = $_POST['choose-genre'];
 	$getAuthor = $_POST['author'];
+	$getCover = $_POST['createPic'];
 	//$getComfirm = $_POST['confirm'];
 
 	//var_dump($getGenre);
@@ -37,7 +38,7 @@
 
 	$userId = $row['userId'];
 
-	$queryCreateArticle = "INSERT INTO stories(userId,storyName,genreId,storyDetail,storyDate) VALUES ('$userId','$getAuthor','$genre','$getContent',CURDATE())";
+	$queryCreateArticle = "INSERT INTO stories(userId,storyName,genreId,storyDetail,storyDate,storyCover) VALUES ('$userId','$getAuthor','$genre','$getContent',CURDATE(),'$getCover')";
 
 	if($result = $connection->query($queryCreateArticle)){
 		echo "seccess";
@@ -48,6 +49,6 @@
 	}
 	header('Location: http://localhost/storyteller-demo/create.php');
 
-	$connection->close();
+
 
 ?>

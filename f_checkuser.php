@@ -9,13 +9,13 @@
 		$getpassword = $_POST['password'];
 	}
 	
-	$username = "root";
+	$usernameDB = "root";
 	$password = "";
 	$dbname = "articlewebsite";
 	$hostname = "localhost";
 
 	if(isset($getusername) && isset($getpassword)){
-		$connection = new mysqli($hostname,$username,$password,$dbname);
+		$connection = new mysqli($hostname,$usernameDB,$password,$dbname);
 		
 		$query = "SELECT * FROM user WHERE username = '$getusername' AND password = '$getpassword'";
 
@@ -28,8 +28,12 @@
 
 		$row = $result->fetch_assoc();
 
+		$_SESSION['userId'] = $row['userId'];
 		$_SESSION['username'] = $row['username'];
 		$_SESSION['password'] = $row['password'];
-	}
 
+		$connection->close();
+	}
+		
+	
 ?>

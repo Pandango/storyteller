@@ -1,6 +1,10 @@
 <?php
 	require_once 'f_checkuser.php';	
 	$getStoryId = $_GET['storyId'];
+	if(isset($_SESSION['userId'])){
+		$userId = $_SESSION['userId'];	
+	}
+
 ?>
 
 <!DOCTYPE html>
@@ -37,11 +41,46 @@
 		<title></title>
 	</head>
 	<body>
+	<style>
+	.fix-content{
+		background-position: center center; 
+		background-repeat:no-repeat;  
+		overflow: hidden; 
+		background-size: cover; 
+	}
+	</style>
 		<div id="container">
+		<?php
+			if(isset($_SESSION['userId'])){
+			$username = "root";
+			$password = "";
+			$dbname = "articlewebsite";
+			$hostname = "localhost";
+			
+			$connection = new mysqli($hostname,$username,$password,$dbname);
+
+			$queryUserProfile = "SELECT * FROM userprofile WHERE userId = $userId LIMIT 1";
+
+			$result = $connection->query($queryUserProfile);
+
+			$row = $result->fetch_assoc();
+
+			$userPicture = $row['userPicture'];
+			$userCover = $row['userCover'];
+			$description = $row['description'];
+			$totalStories = $row['totalStories'];
+			$following= $row['following'];
+			$followers = $row['followers'];
+		 
+			require_once 'f_checkResetPass.php'; 
+	}	
+
+
+		?>
 		<!-- Header -->
 		<div class="nav nav-bg">
 			<div class="w-con">
-				<div class="col-md-2"> LOGO </div>
+				<div class="col-md-2"><img src="images/cs_logo.png" style="max-height:40px; position:relative; top:-10px;"></div>
 				<div class="col-md-1"></div>
 				<div class="col-md-4 nav-search-con">
 					<form action="search.php" methos="GET">
@@ -74,11 +113,11 @@
 							</div>';
 						echo '<div class="col-md-1 dropdown">
 								<a href="">
-								<img class="ui avatar image" src="images\user\default.png">
+								<img class="ui avatar image" src="'.$userPicture.'">
 								</a>
 								<div class="dropdown-content">
-									<a href="">User Profile</a>
-									<a href="">Setting</a>
+									<a href="profile.php">User Profile</a>
+									<a data-toggle="modal" data-target="#forgotPass">Setting</a>
 									<a href="logout.php">Log Out</a>
 								</div>
 							</div>';																		
@@ -91,9 +130,7 @@
 		</div>
 
 		<!-- Article Cover -->
-		<div class="cover-container layout-test">
-			<img src="" class="img-fluid" alt="test" style="height: auto;">
-		</div>
+
 		<?php
 
 			$username = "root";
@@ -103,7 +140,7 @@
 			
 			$connection = new mysqli($hostname,$username,$password,$dbname);
 			
-			$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId WHERE storyId='$getStoryId' LIMIT 1";
+			$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId JOIN userprofile ON user.userId = userprofile.userId WHERE storyId='$getStoryId'";
 
 			$result = $connection->query($query);
 
@@ -116,11 +153,15 @@
 			$storyLike = $data['storyLike'];
 			$storyAuthor = $data['username'];
 			$storyCover = $data['storyCover'];
+			$authorPicter = $data['userPicture'];
 
 			$result->free();
 
 			$connection->close();
 
+			if(isset($storyCover)){
+				$storyCover = "images/articleCover/default.png";
+			}
 			switch ($data["genre"]) {
 				case 'Experience':
 					$genreIcon = "fa fa-flag";
@@ -136,7 +177,8 @@
 					break;
 			}		
 		?>
-
+		<div class="cover-container fix-content" style=<?php echo "background-image:url('".$storyCover."')";?>>
+		</div>
 		<!-- Content -->
 		<div class="w-con article-container" id="body">
 			<div class="sub-article-container ">
@@ -154,18 +196,19 @@
 				</div>
 			</div>
 			<div class="sub-article-container" style="margin-bottom: 50px;">
-				<div class="col-md-7"></div>
-				<div class="col-md-2 date">
-					<span class="text-header-miner"><?=$storyDate?></span>
+			<div class="row"> 
+					<div class="col-md-8"></div>
+					<div class="col-md-4" style="display:inline;">	
+						<div style="display:inline; padding-left:20px; float:right;">				
+								<span class="text-header-miner" style="padding-top:5px;"><?=$storyDate?></span>
+							
+								<div style="display:inline; padding-left:20px;">
+								<img class="ui avatar image" src=<?php echo $authorPicter;?>>
+								<?=$storyAuthor ?>		
+								</div>
+						</div>	
 				</div>
-				<div class="col-md-1 like">
-					<button class="btn like-btn">
-						<i class="fa fa-heart fa-3x" aria-hidden="true"></i>
-					</button>	
-				</div>	
-				<div class="col-md-2 text-like">
-					<p><?=$storyLike?></p>
-				</div>	
+			</div>
 			</div>
 		</div>
 

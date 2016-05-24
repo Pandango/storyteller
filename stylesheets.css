@@ -1,0 +1,149 @@
+body  {
+	font-family: 'Helvetica', sans-serif;
+    background-image: url("");
+    background-color: #f9f9f9;
+
+}
+section{
+	padding: 15px;
+}
+
+.container-bg{
+	background-color:#fff; 
+	height: 800px; 
+	border: solid 1px #e2e2e2;
+}
+.question-number-bg{
+	position: relative;
+	width: 100%;
+	height:5px;
+	background-color: #fac4d9;
+}
+.question-number-progress{
+	position: absolute;
+	top: 0px;
+	height:5px;
+	background-color: #fa5c98;
+}
+
+.logo-2x{
+	width: 89px;
+	height:32px;
+	margin: auto;
+	display: inline;
+}
+
+a:hover.logo-2x{
+	opacity: 0.5px;
+}
+
+.navbar{
+	margin: 0px;
+	border-radius: 0px;
+	background-color:white;
+	border:solid 1px #e2e2e2;
+}
+
+.thai-text{
+	font-family: "ThaiSans Neue";
+}
+
+.text-title{
+	font-weight: bold;
+	color: #303233;
+	font-size: 32px;
+}
+
+.text-content{
+
+	font-size: 26px;
+}
+
+.photo-circle-item{
+	border-radius:50%;
+	width: 200px;
+	height: 200px;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+}
+.photo-des{
+	font-size: 18px;
+	color : #e8e8e8;
+	position:relative; 
+	top:90px; 
+	left:-32px;
+	opacity: 0;
+}
+.photo-icon{
+	position:relative; 
+	color: #e8e8e8;
+	top:32%; 
+	left:32%;
+	opacity: 0;
+}
+
+.photo-show-icon{
+	position: relative;
+	top:90px;
+	left:0px;
+	color: #999ba2;
+}
+
+.item-overlay{
+	position: absolute;
+	background-color: black;
+	opacity: 0;
+	border-radius:50%;
+	width: 200px;
+	height: 200px;
+	z-index: 0;
+}
+.photo-circle-item:hover .photo-show-icon{
+	opacity:0;
+}
+
+.photo-circle-item:hover .item-overlay{
+	opacity:0.3;
+}
+
+.photo-circle-item:hover .photo-icon{
+	opacity:1;
+}
+
+.photo-circle-item:hover .photo-des{
+	opacity:1;
+}
+
+.photo-default{
+	background-image : url(Pic/default.jpg);
+	background-size: 200px ,200px;
+}
+
+.photo-upload-size{
+	background-size: 200px ,200px;
+}
+
+.fileImage{
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileImage input#fileImage {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+
+.result-align{
+	width:200px;
+	height:200px; 
+	margin-left: auto;
+    margin-right: auto;margin-top:10%
+}

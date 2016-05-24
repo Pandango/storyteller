@@ -7,14 +7,14 @@
 	
 	$connection = new mysqli($hostname,$username,$password,$dbname);
 	
-	$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId ORDER BY storyDate DESC LIMIT 0,10";
+	$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId JOIN userprofile ON user.userId = userprofile.userId ORDER BY storyDate DESC LIMIT 0,10";
 
 	if($result = $connection->query($query));
 	{
 		while ($data = $result->fetch_assoc()) {
 		echo '<a style="color:#262626;" href="read-article.php?storyId='.$data['storyId'].'"><div class="content-card-latest">					
-					<div style="float:left;">
-						<img style="width:300px; height:100% postion:relative;" src="images\articleCover\default-cover.png">
+					<div style="widht:300px; height:248px; float:left;">
+						<img style="max-width:100%; max-height:100%; postion:relative;" src="'.$data['storyCover'].'">
 					</div>';
 
 			switch ($data["genre"]) {
@@ -45,7 +45,7 @@
 							</div>	
 						<div style="position:absolute; clear: both; float: left; bottom:0px;">
 							<div style="display:inline;">'.
-							'<img class="ui avatar image" src="images\user\default.png">'.$data['username'].'</div>'.
+							'<img class="ui avatar image" src="'.$data['userPicture'].'">'.$data['username'].'</div>'.
 						'</div>	
 						<div style="bottom:0px; text-align:right; padding:5px;">'.$data['storyDate'].'</div>																		
 					</div>				

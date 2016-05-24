@@ -7,7 +7,7 @@
 				
 				$connection = new mysqli($hostname,$username,$password,$dbname);
 				
-				$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId WHERE storyName LIKE '%$getSearch%' ORDER BY storyLike DESC LIMIT 0,10";
+				$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId JOIN userprofile ON user.userId = userprofile.userId  WHERE storyName LIKE '%$getSearch%' ORDER BY storyLike DESC LIMIT 0,10";
 
 				if($result = $connection->query($query));
 				{
@@ -45,7 +45,7 @@
 										</div>	
 									<div style="position:absolute; clear: both; float: left; bottom:0px;">
 										<div style="display:inline;">'.
-										'<img class="ui avatar image" src="images\user\default.png">'.$data['username'].'</div>'.
+										'<img class="ui avatar image" src="'.$data['userPicture'].'">'.$data['username'].'</div>'.
 									'</div>	
 									<div style="bottom:0px; text-align:right; padding:5px;">'.$data['storyDate'].'</div>																		
 								</div>				

@@ -1,12 +1,24 @@
 <?php
-	require_once 'f_checkuser.php';					
+	require_once 'f_checkuser.php';	
+	$getsername = $_SESSION['username'];
+	$userId = $_SESSION['userId'];	
+
+		if(isset($_SESSION['createCover'])){
+			$createCover = $_SESSION['createCover'];
+			$_SESSION['createCover'] = false;
+		}
+		else{
+			$createCover = 'images/articleCover/default-cover.png';
+		}
 ?>
 
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset = "utf-8">
-		
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 		<link rel="stylesheet" type="text/css" href="style_sheet.css">
 
 		<!-- Jquery-->
@@ -32,16 +44,52 @@
 		<script src="semantic/semantic.min.js"></script>
 		<script src="carousel.js"></script>
 
+		<script src="scriptcontrol.js"></script>
 		<script src="http://www.w3schools.com/lib/w3data.js"></script>
-
 		<title></title>
+			<style>
+	.cover-bg{
+		height: 250px; 
+		background-position: center center; 
+		background-size: cover; 
+		background-repeat:no-repeat; 
+	}
+
+	</style>
 	</head>
 	<body>
+
+		
 		<div id="container">
+		<?php
+			$username = "root";
+				$password = "";
+				$dbname = "articlewebsite";
+				$hostname = "localhost";
+				
+				$connection = new mysqli($hostname,$username,$password,$dbname);
+
+				$queryUserProfile = "SELECT * FROM userprofile WHERE userId = $userId LIMIT 1";
+
+				$result = $connection->query($queryUserProfile);
+
+				$row = $result->fetch_assoc();
+
+				$userPicture = $row['userPicture'];
+				$userCover = $row['userCover'];
+				$description = $row['description'];
+				$totalStories = $row['totalStories'];
+				$following= $row['following'];
+				$followers = $row['followers'];
+		 
+				require_once 'f_checkResetPass.php'; 		
+
+
+		?>
 		<!-- Header -->
 		<div class="nav nav-bg">
 			<div class="w-con">
-				<div class="col-md-2"> LOGO </div>
+				<div class="col-md-2"><img src="images/cs_logo.png" style="max-height:40px; position:relative; top:-10px;"></div>
 				<div class="col-md-1"></div>
 				<div class="col-md-4 nav-search-con">
 					<form action="search.php" methos="GET">
@@ -74,11 +122,11 @@
 							</div>';
 						echo '<div class="col-md-1 dropdown">
 								<a href="">
-								<img class="ui avatar image" src="images\user\default.png">
+								<img class="ui avatar image" src="'.$userPicture.'">
 								</a>
 								<div class="dropdown-content">
-									<a href="">User Profile</a>
-									<a href="">Setting</a>
+									<a href="profile.php">User Profile</a>
+									<a data-toggle="modal" data-target="#forgotPass">Setting</a>
 									<a href="logout.php">Log Out</a>
 								</div>
 							</div>';																		
@@ -89,21 +137,55 @@
 				?>
 			</div>
 		</div>
+		<!-- Modal -->
+		<div class="modal fade" id="forgotPass" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<form action="create.php" method="POST">
+			  <div class="modal-content">
+			    <div class="modal-header">
+			      <button type="button" class="close" data-dismiss="modal">&times;</button>
+			      <h4 class="modal-title">Reset Password?</h4>
+			    </div>
+			    <div class="modal-body">
+			    <div class="content-container">
+			      	<div class="form-group" style="margin-top: 30px;">
+						<p class="text-content">Email :</p>
+						<input type="text" class="form-control" name="email" placeholder="Username">
+					</div>
+			      	<div class="form-group" style="margin-top: 10px;">
+						<p class="text-content">New Password :</p>
+						<input type="password" class="form-control" name="newPass" placeholder="password">
+					</div>
+			      	<div class="form-group" style="margin-top: 10px; margin-bottom:30px;">
+						<p class="text-content">Confirm New Password :</p>
+						<input type="password" class="form-control" name="sendConf" placeholder="password">
+					</div>		    	
+			    </div>
+					
+			    </div>
+			    <div class="modal-footer">
+			    	<button type="submit" class="btn btn-default">Reset Password</button>
+			     	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			    </div>
+			  </div>
+			</form>
+		</div>
+		</div>
 
 		<!-- Content -->
 		<div class="w-con main-container" id="body">
 			<form action="f_create.php" method="POST">
 				<!--author Name-->
 				<input type="hidden" name="author" value=<?= $_SESSION['username'] ?>>
-				<div class="main-container ">
-					<div class="img-container" style="height: 250px;"> 
-						<img src="" class="img-fluid" alt="test" style="height: auto;">
-						<button class="btn img-btn">
-							<i class="fa fa-camera fa-2x" aria-hidden="true"></i>
-						</button>
-					</div>
+				<div class="main-container ">					
+						<div class="img-container cover-bg" style=<?php echo "background-image:url('".$createCover."')"; ?>	>				
+							<input type="hidden" name="createPic" value=<?php echo $createCover?>>
+							<button type="button"data-toggle="modal" data-target="#uploadCover" style="background-color: transparent;" class="btn img-btn">
+								<i class="fa fa-camera fa-2x" aria-hidden="true"></i>
+							</button>
+						</div>
 					<div>
-						
+
 					</div>
 					<div class="form-group container-border">
 						<div class="content-container" style="margin-top: 30px;">
@@ -178,7 +260,41 @@
 				</div>
 				
 			</div>
+
+			<!-- Modal upload Cover -->
+		<div class="modal fade" id="uploadCover" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<form action="f_uploadCoverArticle.php" method="POST" enctype = "multipart/form-data">
+			  <div class="modal-content">
+			    <div class="modal-header">
+			      <button type="button" class="close" data-dismiss="modal">&times;</button>
+			      <h4 class="modal-title">Upload File
+			      </h4>
+			    </div>
+			    <div class="modal-body">
+			    <div class="content-container">
+			    	<div class="form-group">	    		
+						<div class="form-group">
+						<label for="exampleInputFile">Upload Cover picture</label>
+						<input id="fileImage" name="fileImage" type="file" >
+						<p class="help-block">Example block-level help text here.</p>
+					</div>
+				
+	    			
+			    </div>
+					
+			    </div>
+			    <div class="modal-footer">
+			    	<button type="submit" class="btn btn-default">Save</button>
+			     	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			    </div>
+			  </div>
+			</form>
 		</div>
+		</div>
+
+	</div>
+
 
 	</body>
 </html>

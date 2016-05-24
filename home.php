@@ -1,5 +1,10 @@
 <?php
-	require_once 'f_checkuser.php';					
+	require_once 'f_checkuser.php';	
+
+	if(isset($_SESSION['userId'])){
+		$userId = $_SESSION['userId'];	
+	}
+					
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,10 +42,39 @@
 	</head>
 	<body>
 	<div id="container">
+		<?php
+		if(isset($_SESSION['userId'])){
+			$username = "root";
+			$password = "";
+			$dbname = "articlewebsite";
+			$hostname = "localhost";
+			
+			$connection = new mysqli($hostname,$username,$password,$dbname);
+
+			$queryUserProfile = "SELECT * FROM userprofile WHERE userId = $userId LIMIT 1";
+
+			$result = $connection->query($queryUserProfile);
+
+			$row = $result->fetch_assoc();
+
+			$userPicture = $row['userPicture'];
+			$userCover = $row['userCover'];
+			$description = $row['description'];
+			$totalStories = $row['totalStories'];
+			$following= $row['following'];
+			$followers = $row['followers'];	 	
+		 		
+		 
+			//require_once 'f_checkResetPass.php'; 
+		}
+		
+
+
+		?>
 		<!-- Header -->
 		<div class="nav nav-bg">
 			<div class="w-con">
-				<div class="col-md-2"> LOGO </div>
+				<div class="col-md-2"><img src="images/cs_logo.png" style="max-height:40px; position:relative; top:-10px;"></div>
 				<div class="col-md-1"></div>
 				<div class="col-md-4 nav-search-con">
 					<form action="search.php" methos="GET">
@@ -73,11 +107,11 @@
 							</div>';
 						echo '<div class="col-md-1 dropdown">
 								<a href="">
-								<img class="ui avatar image" src="images\user\default.png">
+								<img class="ui avatar image" src="'.$userPicture.'">
 								</a>
 								<div class="dropdown-content">
-									<a href="">User Profile</a>
-									<a href="">Setting</a>
+									<a href="profile.php">User Profile</a>
+									<a data-toggle="modal" data-target="#forgotPass">Setting</a>
 									<a href="logout.php">Log Out</a>
 								</div>
 							</div>';																		
@@ -88,6 +122,7 @@
 				?>
 			</div>
 		</div>
+		
 		<!-- Content -->
 		<div class="w-con main-container" id="body">
 		<h3 style="margin-top:30px;">Popular Article</h3>
@@ -118,7 +153,7 @@
 		<h3>Latest Article</h3>
 		<hr>	
 			<div w3-include-html="f_findLatest.php"></div>
-		<button type="button" id="btn-readmore" class="btn-center btn btn-default" >Read More...</button>		
+			<div style="margin:50px;"></div>			
 	</div>
 		
 
@@ -160,6 +195,39 @@
 			
 		</div>
 
+		<div class="modal fade" id="forgotPass" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<form action="f_checkResetPass.php" method="POST">
+			  <div class="modal-content">
+			    <div class="modal-header">
+			      <button type="button" class="close" data-dismiss="modal">&times;</button>
+			      <h4 class="modal-title">Reset Password?</h4>
+			    </div>
+			    <div class="modal-body">
+			    <div class="content-container">
+			      	<div class="form-group" style="margin-top: 30px;">
+						<p class="text-content">Email :</p>
+						<input type="text" class="form-control" name="email" placeholder="Username">
+					</div>
+			      	<div class="form-group" style="margin-top: 10px;">
+						<p class="text-content">New Password :</p>
+						<input type="password" class="form-control" name="newPass" placeholder="password">
+					</div>
+			      	<div class="form-group" style="margin-top: 10px; margin-bottom:30px;">
+						<p class="text-content">Confirm New Password :</p>
+						<input type="password" class="form-control" name="sendConf" placeholder="password">
+					</div>		    	
+			    </div>
+					
+			    </div>
+			    <div class="modal-footer">
+			    	<button type="submit" name="submitReset"class="btn btn-default">Reset Password</button>
+			     	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			    </div>
+			  </div>
+			</form>
+		</div>
+		</div> 
 		<script>
 			w3IncludeHTML();
 		</script>
