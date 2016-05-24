@@ -1,6 +1,9 @@
 <?php
-	require_once 'f_checkuser.php';		
-	$userId = $_SESSION['userId'];	
+	require_once 'f_checkuser.php';	
+	if(isset($_SESSION['userId'])){
+		$userId = $_SESSION['userId'];
+	}	
+		
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +43,7 @@
 	<body>
 	<div id="container">
 		<?php
+		if(isset($_SESSION['userId'])){
 			$username = "root";
 				$password = "";
 				$dbname = "articlewebsite";
@@ -60,7 +64,8 @@
 				$following= $row['following'];
 				$followers = $row['followers'];
 		 
-			require_once 'f_checkResetPass.php'; 		
+			require_once 'f_checkResetPass.php'; 	
+			}	
 		?>
 		<!-- Header -->
 		<div class="nav nav-bg">
