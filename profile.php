@@ -72,6 +72,8 @@
 				require('f_checkResetPass.php');		
 
 				modalRegis('profile.php');	
+
+
 			}
 
 		?>
@@ -134,7 +136,7 @@
 						
 				
 				<div class="form-group container-border" style="padding-bottom: 100px;">
-								<!--picture Upload-->
+				<!--picture Upload-->
 					<div class="form-group" style="margin-top:70px;">
 						<div style="margin-left:35%;">
 							<img src=<?=$userPicture?> class="img-circle" style="width:200px; height:200px;">
@@ -187,6 +189,15 @@
 			</div>
 			<!--card story-->
 			<?php
+				if(isset($userId)){
+
+				$username = "root";
+				$password = "";
+				$dbname = "articlewebsite";
+				$hostname = "localhost";
+				
+				$connection = new mysqli($hostname,$username,$password,$dbname);
+
 				$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId JOIN userprofile ON user.userId = userprofile.userId WHERE stories.userId = $userId ORDER BY storyDate DESC";
 
 				if($result = $connection->query($query));
@@ -235,6 +246,7 @@
 				}
 
 				$connection->close();
+			}
 			?>	
 			<div style="margin:50px;"></div>							
 		</div>

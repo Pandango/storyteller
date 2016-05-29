@@ -190,11 +190,11 @@
 					<div class="form-group container-border">
 						<div class="content-container" style="margin-top: 30px;">
 							<p class="text-header-miner">Article Name :</p>
-							<input type="text" class="form-control" name="articleName"placeholder="Article Name">
+							<input type="text" class="form-control" name="articleName"placeholder="Article Name" required>
 						</div>
 
 						<div class="content-container" style="margin-top: 20px;">
-							<textarea class="form-control" rows="30" name="articleDetail" placeholder="Tell your story here ..."></textarea>
+							<textarea class="form-control" rows="30" name="articleDetail" placeholder="Tell your story here ..." required></textarea>
 
 							<!-- layout problem -->
 							<div class="row" style="margin-top: 50px; margin-bottom: 30px; padding-left: 15px; padding-right: 15px;">

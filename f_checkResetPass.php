@@ -1,5 +1,3 @@
-
-
 <?php
 
 	if(isset($_SESSION['userId'])){
@@ -33,7 +31,9 @@
 			$result = $connection->query($query);
 
 			if($result->num_rows == 0){
-				echo 'user or email is wrong';
+			echo '<script type="text/javascript">alert("Email was wrong!");
+				
+				</script>';
 								
 			}
 
@@ -42,13 +42,15 @@
 			$queryUpdatePass = "UPDATE user SET password='$newPassword' WHERE userId = '$userId' AND email = '$email'";
 
 			if($connection->query($queryUpdatePass)){
-				//echo "success";
+				//succees
 			}
 			$connection->close();
 			
 		}	
 		else {
-			//echo "password not same";
+			echo '<script type="text/javascript">alert("Password not same");
+				
+				</script>';
 		}
 	}else{
 		
