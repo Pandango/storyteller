@@ -1,21 +1,24 @@
-<?php
-		require_once 'f_checkuser.php';
-		if(isset($_SESSION['password']))
-			header('Location: home.php') ;
-			if(isset($userId)){
-				$userId = $_SESSION['userId'];
-
-				
-
+<script type="text/javascript">
+	function wrongPass(){
+		alert('password or username wrong');
 	}
-		
+</script>
+
+<?php
+	require_once 'f_checkuser.php';
+
+	if(isset($_SESSION['password']))
+		header('Location: home.php') ;
+
+	if(isset($userId)){
+		$userId = $_SESSION['userId'];
+	}
 ?>
 
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset = "utf-8">
-		<link rel="stylesheet" type="text/css" href="style_sheet_panda.css">
 
 		<link rel="stylesheet" type="text/css" href="style_sheet.css">
 		<!-- Jquery-->
@@ -37,9 +40,13 @@
 		<script src="carousel.js"></script>
 
 		<script src="http://www.w3schools.com/lib/w3data.js"></script>
+
+
+
 		<title></title>
 	</head>
 	<body>
+
 
 		<div id="container">
 		<?php
@@ -65,16 +72,15 @@
 				$followers = $row['followers'];
 		 
 
-			require_once 'f_checkResetPass.php';
+				require('f_checkResetPass.php');
 		}
 
 		?>
-		<!-- Header -->
 		<div class="nav nav-bg">
 			<div class="w-con">
-				<div class="col-md-2"><img src="images/cs_logo.png" style="max-height:40px; position:relative; top:-10px;"></div>
+				<div class="col-md-2"><a href="home.php"><img src="images/cs_logo.png" style="max-height:40px; position:relative; top:-10px;"></a></div>
 				<div class="col-md-1"></div>
-				<div class="col-md-4 nav-search-con">
+				<div class="col-md-4 nav-search-con" style="height: 30px;">
 					<form action="search.php" methos="GET">
 						<input type="text" class="nav-search" name="search" placeholder="Search...">
 						<button type="submit"style="border: 0; padding: 0; display: inline; background: none;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
@@ -98,6 +104,7 @@
 						<a href="article.php?article=Knowledge">Knowledge</a>
 					</div>
 				</div>
+
 				<?php
 					if(isset($_SESSION['username'])){
 						echo'<div class="col-md-1">
@@ -137,25 +144,10 @@
 							<p class="text-content">Password :</p>
 							<input type="password" class="form-control" name="password" placeholder="Password" required>
 						</div>
-<!-- 						<div class="content-container">
-							<div style="float:right;">
-								<label class="text-content">
-									<a href="#">Forgot Password ?</a>
-								</label>
-							</div>
 
-							<div class="checkbox" style="width:400px">
-								<label class="text-content">
-									<input type="checkbox"> Remember Me
-								</label>
-							</div>
-							
-						</div> -->
 						<div class="content-container" style="margin-top: 50px;">
 							<button type="submit" class="login-btn">Log in</button>
-							<a href="home.php" class="login-btn">
-								Cancel
-							</a>
+							<button type="reset" onclick="location.href='home.php'" class="login-btn">Cancel</button>
 						</div>
 						<div class="content-container" style="margin-top: 20px;">
 							<p class="text-content">

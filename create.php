@@ -1,15 +1,17 @@
 <?php
 	require_once 'f_checkuser.php';	
-	$getsername = $_SESSION['username'];
-	$userId = $_SESSION['userId'];	
+	if(isset($_SESSION['userId'])){
+		$userId = $_SESSION['userId'];
+		require 'f_modalRegis.php';
+	}
 
-		if(isset($_SESSION['createCover'])){
-			$createCover = $_SESSION['createCover'];
-			$_SESSION['createCover'] = false;
-		}
-		else{
-			$createCover = 'images/articleCover/default-cover.png';
-		}
+	if(isset($_SESSION['createCover'])){
+		$createCover = $_SESSION['createCover'];
+		$_SESSION['createCover'] = false;
+	}
+	else{
+		$createCover = 'images/articleCover/default-cover.png';
+	}
 ?>
 
 <!DOCTYPE html>
@@ -57,9 +59,7 @@
 
 	</style>
 	</head>
-	<body>
-
-		
+	<body class="main-font">	
 		<div id="container">
 		<?php
 			$username = "root";

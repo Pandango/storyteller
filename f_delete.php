@@ -5,8 +5,8 @@
 	$dbname = "articlewebsite";
 	$hostname = "localhost";
 	
-	var_dump($delStoryId);
 	$connection = new mysqli($hostname,$username,$password,$dbname);
+	$connection->set_charset('utf8');
 	
 	$query = "DELETE FROM stories WHERE storyId = $delStoryId";
 

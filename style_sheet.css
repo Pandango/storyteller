@@ -3,6 +3,7 @@ body{
 	margin:0;
    	padding:0;
    	height:100%;
+
 }
 
 div{
@@ -17,6 +18,7 @@ div{
 #container{
 	min-height:100%;
 	position: relative;
+	font-size: 16px;
 }
 
 .tag-genre{
@@ -33,6 +35,7 @@ div{
 	padding-top: 30px;
 	padding-bottom: 12px;
 	z-index: 2;
+
 }
 
 .nav-bg{
@@ -43,6 +46,7 @@ div{
 	background-color: #D47A5B;
 	border-radius: 10px;
 	padding-left: 30px;
+	
 
 }
 
@@ -73,7 +77,7 @@ div{
 .w-con{
 	margin-left: auto;
 	margin-right: auto;
-	max-width: 940px;
+	max-width: 960px;
 }
 
 .main-container{
@@ -146,6 +150,10 @@ div{
 .content-genre{
 	position: absolute;
     right: 0px;
+}
+
+.card-content{
+	color:#636161;
 }
 
 .profile-container{
@@ -256,14 +264,13 @@ div{
 
 .text-name{
 	font-size: 28px;
-
 }
 
 .text-header-miner{
-	font-size: 18px;
+	font-size: 16px;
 }
 .text-article-header{
-	font-size: 24px;
+	font-size: 32px;
 	font-weight: bold;
 	color: #333;
 }

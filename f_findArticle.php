@@ -6,6 +6,7 @@
 	$hostname = "localhost";
 	
 	$connection = new mysqli($hostname,$username,$password,$dbname);
+	$connection->set_charset('utf8');
 	
 	$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId WHERE storyId='$getStoryId' LIMIT 1";
 

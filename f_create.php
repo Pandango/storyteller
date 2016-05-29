@@ -4,9 +4,6 @@
 	$getGenre = $_POST['choose-genre'];
 	$getAuthor = $_POST['author'];
 	$getCover = $_POST['createPic'];
-	//$getComfirm = $_POST['confirm'];
-
-	//var_dump($getGenre);
 
 	$username = "root";
 	$password = "";
@@ -14,6 +11,7 @@
 	$hostname = "localhost";
 	
 	$connection = new mysqli($hostname,$username,$password,$dbname);
+	$connection->set_charset('utf8');
 	
 	switch ($getGenre) {
 				case 'experience':
@@ -38,7 +36,7 @@
 
 	$userId = $row['userId'];
 
-	$queryCreateArticle = "INSERT INTO stories(userId,storyName,genreId,storyDetail,storyDate,storyCover) VALUES ('$userId','$getAuthor','$genre','$getContent',CURDATE(),'$getCover')";
+	$queryCreateArticle = "INSERT INTO stories(userId,storyName,genreId,storyDetail,storyDate,storyCover) VALUES ('$userId','$getArticleName','$genre','$getContent',CURDATE(),'$getCover')";
 
 	if($result = $connection->query($queryCreateArticle)){
 		echo "seccess";

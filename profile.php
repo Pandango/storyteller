@@ -1,6 +1,10 @@
 <?php
 	require_once 'f_checkuser.php';	
-	$userId = $_SESSION['userId'];			
+
+	if(isset($_SESSION['userId'])){
+		$userId = $_SESSION['userId'];	
+		require 'f_modalRegis.php';
+	}		
 ?>
 
 <!DOCTYPE html>
@@ -31,12 +35,14 @@
 		<script src="carousel.js"></script>
 		<script src="scriptcontrol.js"></script>
 		<script src="http://www.w3schools.com/lib/w3data.js"></script>
-		<title></title>
+		<title>Colont Story | Profile</title>
 	</head>
-	<body>
+	<body class="main-font">
 		<div id="container">
 		<?php
-			$username = "root";
+
+			if(isset($userId)){
+				$username = "root";
 				$password = "";
 				$dbname = "articlewebsite";
 				$hostname = "localhost";
@@ -63,11 +69,13 @@
 
 				$totalStories = $row['sumstories'];
 
-				var_dump($totalStories);
-			require_once 'f_checkResetPass.php'; 		
+				require('f_checkResetPass.php');		
 
+				modalRegis('profile.php');	
+			}
 
 		?>
+
 		<!-- Header -->
 		<div class="nav nav-bg">
 			<div class="w-con">
@@ -179,15 +187,15 @@
 			</div>
 			<!--card story-->
 			<?php
-				$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId JOIN userprofile ON user.userId = userprofile.userId WHERE stories.userId = $userId ORDER BY storyDate";
+				$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId JOIN userprofile ON user.userId = userprofile.userId WHERE stories.userId = $userId ORDER BY storyDate DESC";
 
 				if($result = $connection->query($query));
 				{
 					while ($data = $result->fetch_assoc()) {
-					echo '<a style="color:#262626;" href="read-article.php?storyId='.$data['storyId'].'"><div class="content-card-latest">					
-						<div style="widht:300px; height:248px; float:left;">
-							<img style="max-width:100%; max-height:100%; postion:relative;" src="'.$data['storyCover'].'">
-						</div>';
+						echo '<a style="color:#262626;" href="read-article.php?storyId='.$data['storyId'].'"><div class="content-card-latest">					
+										<div style="width:300px; height:248px; background-size:cover; background-position:center; overflow:hidden; float:left; background-image:url('."'".$data['storyCover']."'".')">
+											
+										</div>';
 
 						switch ($data["genre"]) {
 									case 'Experience':
@@ -219,17 +227,8 @@
 										<div style="display:inline;">'.
 										'<img class="ui avatar image" src="'.$data['userPicture'].'">'.$data['username'].'</div>'.
 									'</div>	
-
-									<div style="border-left: 1px solid #E0E0E0; text-align:right; float:right; clear:both;">
-										<div style="bottom: 0px;text-align: right; padding: 5px; float: right; display: inline;">
-												<a href="f_delete.php?delStoryId='.$data['storyId'].'" style="padding-left:5px;">
-												Delete
-												</a>
-										</div>
-									</div>
-									<div style="bottom:0px; text-align:right; padding:5px; float:right; display:inline; padding-right:10px;">'.$data['storyDate'].'</div>
-									</div>	
-												
+									<div style="bottom:0px; text-align:right; padding:5px;">'.$data['storyDate'].'</div>																		
+								</div>				
 						</div></a>';
 					}
 						$result->free();

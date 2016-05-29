@@ -142,8 +142,8 @@
 				{
 					while ($data = $result->fetch_assoc()) {
 						echo '<a style="color:#262626;" href="read-article.php?storyId='.$data['storyId'].'"><div class="content-card-latest">					
-						<div style="widht:300px; height:248px; float:left;">
-							<img style="max-width:100%; max-height:100%; postion:relative;" src="'.$data['storyCover'].'">
+						<div style="width:300px; height:248px; background-size:cover; background-position:center; overflow:hidden; float:left; background-image:url('."'".$data['storyCover']."'".')">
+							
 						</div>';
 
 						switch ($data["genre"]) {

@@ -1,5 +1,9 @@
 <?php
-		require_once 'f_checkuser.php';		
+	require_once 'f_checkuser.php';
+
+	if(isset($_SESSION['userId'])){
+		$userId = $_SESSION['userId'];
+	}		
 ?>
 
 <!DOCTYPE html>
@@ -33,16 +37,43 @@
 		<script src="carousel.js"></script>
 
 		<script src="http://www.w3schools.com/lib/w3data.js"></script>
-		<title></title>
+
+		<title>Colony Story | Register</title>
 	</head>
+
 	<body>
 		<div id="container">
-		<?php require_once 'f_checkResetPass.php'; 
-		?>
+		<?php
+			if(isset($_SESSION['userId'])){
+			$username = "root";
+			$password = "";
+			$dbname = "articlewebsite";
+			$hostname = "localhost";
+			
+			$connection = new mysqli($hostname,$username,$password,$dbname);
+
+			$queryUserProfile = "SELECT * FROM userprofile WHERE userId = $userId LIMIT 1";
+
+			$result = $connection->query($queryUserProfile);
+
+			$row = $result->fetch_assoc();
+
+			$userPicture = $row['userPicture'];
+			$userCover = $row['userCover'];
+			$description = $row['description'];
+			$totalStories = $row['totalStories'];
+			$following= $row['following'];
+			$followers = $row['followers'];
+		 
+			require('f_checkResetPass.php'); 
+
+			
+		}	
+	?>
 		<!-- Header -->
-		<div class="nav nav-bg">
+				<div class="nav nav-bg">
 			<div class="w-con">
-				<div class="col-md-2"><img src="images/cs_logo.png" style="max-height:40px; position:relative; top:-10px;"></div>
+				<div class="col-md-2"><a href="home.php"><img src="images/cs_logo.png" style="max-height:40px; position:relative; top:-10px;"></a></div>
 				<div class="col-md-1"></div>
 				<div class="col-md-4 nav-search-con">
 					<form action="search.php" methos="GET">
@@ -75,7 +106,7 @@
 							</div>';
 						echo '<div class="col-md-1 dropdown">
 								<a href="">
-								<img class="ui avatar image" src="images\user\default.png">
+								<img class="ui avatar image" src="'.$userPicture.'">
 								</a>
 								<div class="dropdown-content">
 									<a href="profile.php">User Profile</a>
@@ -116,7 +147,7 @@
 						</div>
 						<div class="content-container" style="margin-top: 50px; margin-bottom: 50px;">
 							<button type="submit" class="login-btn">Sign Up</button>
-							<button type="clear" class="login-btn">Cancel</button>
+							<button type="reset" onclick="location.href='home.php'" class="login-btn">Cancel</button>
 						</div>
 						<div class="content-container" style="margin-bottom: 20px;">
 						<div class="text-content">

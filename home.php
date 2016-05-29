@@ -3,15 +3,18 @@
 
 	if(isset($_SESSION['userId'])){
 		$userId = $_SESSION['userId'];	
-	}
-					
+		require 'f_modalRegis.php';
+	}					
 ?>
+
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset = "utf-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		
-		<link rel="stylesheet" type="text/css" href="style_sheet_panda.css">
+		<link rel="stylesheet" type="text/css" href="style_sheet.css">
+
+<!-- 		<link rel="stylesheet" type="text/css" href="style_sheet_panda.css"> -->
 
 		<!-- Jquery-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -38,90 +41,92 @@
 
 		<script src="http://www.w3schools.com/lib/w3data.js"></script>
 
-		<title></title>
+		<title>Colony Story | Home</title>
 	</head>
-	<body>
-	<div id="container">
-		<?php
-		if(isset($_SESSION['userId'])){
-			$username = "root";
-			$password = "";
-			$dbname = "articlewebsite";
-			$hostname = "localhost";
+	<body >
+		<div id="container">
+			<?php
+			if(isset($_SESSION['userId'])){
+				$username = "root";
+				$password = "";
+				$dbname = "articlewebsite";
+				$hostname = "localhost";
 			
-			$connection = new mysqli($hostname,$username,$password,$dbname);
-
-			$queryUserProfile = "SELECT * FROM userprofile WHERE userId = $userId LIMIT 1";
-
-			$result = $connection->query($queryUserProfile);
-
-			$row = $result->fetch_assoc();
-
-			$userPicture = $row['userPicture'];
-			$userCover = $row['userCover'];
-			$description = $row['description'];
-			$totalStories = $row['totalStories'];
-			$following= $row['following'];
-			$followers = $row['followers'];	 	
-		 		
-		 
-			//require_once 'f_checkResetPass.php'; 
-		}
-		
+				$connection = new mysqli($hostname,$username,$password,$dbname);
+				$connection->set_charset('utf8');
 
 
-		?>
-		<!-- Header -->
-		<div class="nav nav-bg">
-			<div class="w-con">
-				<div class="col-md-2"><img src="images/cs_logo.png" style="max-height:40px; position:relative; top:-10px;"></div>
-				<div class="col-md-1"></div>
-				<div class="col-md-4 nav-search-con">
-					<form action="search.php" methos="GET">
-						<input type="text" class="nav-search" name="search" placeholder="Search...">
-						<button type="submit"style="border: 0; padding: 0; display: inline; background: none;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-					</form>
-				</div>
-				<?php
-					if(isset($_SESSION['username']))
-						echo '<div class="col-md-1"></div>';						
-					else
-						echo '<div class="col-md-2"></div>';
-				?>
-				<div class="col-md-1">
-					<a href="home.php" class="nav-link">Home</a>
-				</div>
-				<div class="col-md-1 dropdown">
-					<a href="" class="nav-link drop-btn">Article</a>
-					<div class="dropdown-content">
-						<a href="article.php?article=Experience">Experience</a>
-						<a href="article.php?article=Short%20story">Short Story</a>
-						<a href="article.php?article=Review">Review</a>
-						<a href="article.php?article=Knowledge">Knowledge</a>
+				$queryUserProfile = "SELECT * FROM userprofile WHERE userId = $userId LIMIT 1";
+
+				$result = $connection->query($queryUserProfile);
+
+				$row = $result->fetch_assoc();
+
+				$userPicture = $row['userPicture'];
+				$userCover = $row['userCover'];
+				$description = $row['description'];
+				$totalStories = $row['totalStories'];
+				$following= $row['following'];
+				$followers = $row['followers'];	 		 		
+				
+				require('f_checkResetPass.php');		
+
+				modalRegis('home.php');
+			}		
+
+			?>
+			<!-- Header -->
+			<div class="nav nav-bg">
+				<div class="w-con">
+					<div class="col-md-2"><a href="home.php"><img src="images/cs_logo.png" style="max-height:40px; position:relative; top:-10px;"></a></div>
+					<div class="col-md-1"></div>
+					<div class="col-md-4 nav-search-con">
+
+						<form action="search.php" methos="GET">
+							<input type="text" class="nav-search" name="search" placeholder="Search...">
+							<button type="submit"style="border: 0; padding: 0; display: inline; background: none;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+						</form>
 					</div>
+					<?php
+						if(isset($_SESSION['username']))
+							echo '<div class="col-md-1"></div>';						
+						else
+							echo '<div class="col-md-2"></div>';
+					?>
+					<div class="col-md-1">
+						<a href="home.php" class="nav-link">Home</a>
+					</div>
+					<div class="col-md-1 dropdown">
+						<a href="" class="nav-link drop-btn">Article</a>
+						<div class="dropdown-content">
+							<a href="article.php?article=Experience">Experience</a>
+							<a href="article.php?article=Short%20story">Short Story</a>
+							<a href="article.php?article=Review">Review</a>
+							<a href="article.php?article=Knowledge">Knowledge</a>
+						</div>
+					</div>
+					<?php
+						if(isset($_SESSION['username'])){
+							echo'<div class="col-md-1">
+									<a href="create.php" class="nav-link">Create</a>
+								</div>';
+							echo '<div class="col-md-1 dropdown">
+									<a href="">
+									<img class="ui avatar image" src="'.$userPicture.'">
+									</a>
+									<div class="dropdown-content">
+										<a href="profile.php">User Profile</a>
+										<a data-toggle="modal" data-target="#forgotPass">Setting</a>
+										<a href="logout.php">Log Out</a>
+									</div>
+								</div>';																		
+						}
+						else{
+							echo '<div class="col-md-1"><a href="login.php" class="nav-link">Login</a></div>';
+						}
+					?>
 				</div>
-				<?php
-					if(isset($_SESSION['username'])){
-						echo'<div class="col-md-1">
-								<a href="create.php" class="nav-link">Create</a>
-							</div>';
-						echo '<div class="col-md-1 dropdown">
-								<a href="">
-								<img class="ui avatar image" src="'.$userPicture.'">
-								</a>
-								<div class="dropdown-content">
-									<a href="profile.php">User Profile</a>
-									<a data-toggle="modal" data-target="#forgotPass">Setting</a>
-									<a href="logout.php">Log Out</a>
-								</div>
-							</div>';																		
-					}
-					else{
-						echo '<div class="col-md-1"><a href="login.php" class="nav-link">Login</a></div>';
-					}
-				?>
 			</div>
-		</div>
 		
 		<!-- Content -->
 		<div class="w-con main-container" id="body">
@@ -134,13 +139,12 @@
 						<div w3-include-html="f_findPopular.php"></div>
 						</div>
 					</div>
-				<div class="item">
-						<div class="row">
-						<div w3-include-html="f_findPopulartNext.php"></div>
-						</div>
-				</div>
-
-				</div>
+					<div class="item">
+							<div class="row">
+							<div w3-include-html="f_findPopulartNext.php"></div>
+							</div>
+					</div>
+			</div>
 				<a style="width: 20px; background:transparent;" class="left carousel-control" href="#myCarousel" data-slide="prev">
 					<span class="icon-prev" aria-hidden="true"></span>
 					<span class="sr-only">Previous</span>
@@ -149,7 +153,7 @@
 					<span class="icon-next" aria-hidden="true"></span>
 					<span class="sr-only">Next</span>
 				</a>
-			</div>	
+		</div>	
 		<h3>Latest Article</h3>
 		<hr>	
 			<div w3-include-html="f_findLatest.php"></div>
@@ -191,43 +195,44 @@
 				<div class="col-md-2" style="padding-left: 0px;">
 					<a href="" class="text-footer-miner footer-btn">something@mail.com </a>
 				</div>
-			</div>
-			
+			</div>			
 		</div>
 
-		<div class="modal fade" id="forgotPass" role="dialog">
-		<div class="modal-dialog modal-lg">
-			<form action="f_checkResetPass.php" method="POST">
-			  <div class="modal-content">
-			    <div class="modal-header">
-			      <button type="button" class="close" data-dismiss="modal">&times;</button>
-			      <h4 class="modal-title">Reset Password?</h4>
-			    </div>
-			    <div class="modal-body">
-			    <div class="content-container">
-			      	<div class="form-group" style="margin-top: 30px;">
-						<p class="text-content">Email :</p>
-						<input type="text" class="form-control" name="email" placeholder="Username">
-					</div>
-			      	<div class="form-group" style="margin-top: 10px;">
-						<p class="text-content">New Password :</p>
-						<input type="password" class="form-control" name="newPass" placeholder="password">
-					</div>
-			      	<div class="form-group" style="margin-top: 10px; margin-bottom:30px;">
-						<p class="text-content">Confirm New Password :</p>
-						<input type="password" class="form-control" name="sendConf" placeholder="password">
-					</div>		    	
-			    </div>
-					
-			    </div>
-			    <div class="modal-footer">
-			    	<button type="submit" name="submitReset"class="btn btn-default">Reset Password</button>
-			     	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			    </div>
-			  </div>
-			</form>
-		</div>
-		</div> 
+		<!-- Modal -->
+<!-- 		<div class="modal fade" id="forgotPass" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<form action="home.php" method="POST">
+				  <div class="modal-content">
+				    <div class="modal-header">
+				      <button type="button" class="close" data-dismiss="modal">&times;</button>
+				      <h4 class="modal-title">Reset Password?</h4>
+				    </div>
+				    <div class="modal-body">
+				    <div class="content-container">
+				      	<div class="form-group" style="margin-top: 30px;">
+							<p class="text-content">Email :</p>
+							<input type="text" class="form-control" name="email" placeholder="Username">
+						</div>
+				      	<div class="form-group" style="margin-top: 10px;">
+							<p class="text-content">New Password :</p>
+							<input type="password" class="form-control" name="newPass" placeholder="password">
+						</div>
+				      	<div class="form-group" style="margin-top: 10px; margin-bottom:30px;">
+							<p class="text-content">Confirm New Password :</p>
+							<input type="password" class="form-control" name="sendConf" placeholder="password">
+						</div>		    	
+				    </div>
+						
+				    </div>
+				    <div class="modal-footer">
+				    	<button type="submit" class="btn btn-default">Reset Password</button>
+				     	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				    </div>
+				  </div>
+				</form>
+			</div>
+		</div> -->
+
 		<script>
 			w3IncludeHTML();
 		</script>

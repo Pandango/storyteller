@@ -1,7 +1,9 @@
 <?php
 	require_once 'f_checkuser.php';	
+
 	if(isset($_SESSION['userId'])){
 		$userId = $_SESSION['userId'];
+		require 'f_modalRegis.php';
 	}	
 		
 ?>
@@ -38,9 +40,9 @@
 
 		<script src="http://www.w3schools.com/lib/w3data.js"></script>
 
-		<title></title>
+		<title>Colony Story | Search</title>
 	</head>
-	<body>
+	<body class="main-font">
 	<div id="container">
 		<?php
 		if(isset($_SESSION['userId'])){
@@ -48,9 +50,10 @@
 				$password = "";
 				$dbname = "articlewebsite";
 				$hostname = "localhost";
-				
-				$connection = new mysqli($hostname,$username,$password,$dbname);
 
+				$connection = new mysqli($hostname,$username,$password,$dbname);
+				$connection->set_charset('utf8');
+				
 				$queryUserProfile = "SELECT * FROM userprofile WHERE userId = $userId LIMIT 1";
 
 				$result = $connection->query($queryUserProfile);
@@ -64,18 +67,23 @@
 				$following= $row['following'];
 				$followers = $row['followers'];
 		 
-			require_once 'f_checkResetPass.php'; 	
+				require('f_checkResetPass.php');
+
+				$page = 'search.php?search='.$_GET['search'];
+
+				modalRegis($page);
 			}	
 		?>
+
 		<!-- Header -->
 		<div class="nav nav-bg">
 			<div class="w-con">
-				<div class="col-md-2"><img src="images/cs_logo.png" style="max-height:40px; position:relative; top:-10px;"></div>
+				<div class="col-md-2"><a href="home.php"><img src="images/cs_logo.png" style="max-height:40px; position:relative; top:-10px;"></a></div>
 				<div class="col-md-1"></div>
 				<div class="col-md-4 nav-search-con">
 					<form action="search.php" methos="GET">
 						<input type="text" class="nav-search" name="search" placeholder="Search...">
-						<button type="submit"style="border: 0; padding: 0; display: inline; background: none;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+						<button type="submit"style="border: 0; padding: 0; display: inline; background: none;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>						
 					</form>
 				</div>
 				<?php
@@ -119,14 +127,12 @@
 			</div>
 		</div>
 		
-		<!-- Content -->
-		<div class="w-con main-container" id="body">
+	<!-- Content -->
+	<div class="w-con main-container" id="body">		
+		<h3 style="margin-top:30px;">Search For... " <span style="font-size:30px;"><?php echo $_GET['search'] ;?></span style="font-size:30px;"> "</h3>
 		
-		<h3 style="margin-top:30px;">SEARCH</h3>
 		<hr>
-
-		<?php require_once 'f_search.php';?>
-		
+		<?php require 'f_search.php';?>	
 
 		<div style="margin:50px;"></div>		
 	</div>

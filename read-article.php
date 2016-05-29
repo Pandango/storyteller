@@ -3,6 +3,7 @@
 	$getStoryId = $_GET['storyId'];
 	if(isset($_SESSION['userId'])){
 		$userId = $_SESSION['userId'];	
+		require 'f_modalRegis.php';
 	}
 
 ?>
@@ -58,6 +59,7 @@
 			$hostname = "localhost";
 			
 			$connection = new mysqli($hostname,$username,$password,$dbname);
+			$connection->set_charset('utf8');
 
 			$queryUserProfile = "SELECT * FROM userprofile WHERE userId = $userId LIMIT 1";
 
@@ -72,15 +74,17 @@
 			$following= $row['following'];
 			$followers = $row['followers'];
 		 
-			require_once 'f_checkResetPass.php'; 
+			require('f_checkResetPass.php');		
+
+			modalRegis('read-article.php');	
 	}	
 
 
-		?>
+	?>
 		<!-- Header -->
-		<div class="nav nav-bg">
+				<div class="nav nav-bg">
 			<div class="w-con">
-				<div class="col-md-2"><img src="images/cs_logo.png" style="max-height:40px; position:relative; top:-10px;"></div>
+				<div class="col-md-2"><a href="home.php"><img src="images/cs_logo.png" style="max-height:40px; position:relative; top:-10px;"></a></div>
 				<div class="col-md-1"></div>
 				<div class="col-md-4 nav-search-con">
 					<form action="search.php" methos="GET">
@@ -139,11 +143,12 @@
 			$hostname = "localhost";
 			
 			$connection = new mysqli($hostname,$username,$password,$dbname);
-			
+			$connection->set_charset('utf8');
+
 			$query = "SELECT * FROM stories JOIN user ON stories.userId = user.userId JOIN storygenre ON stories.genreId = storygenre.genreId JOIN userprofile ON user.userId = userprofile.userId WHERE storyId='$getStoryId'";
 
 			$result = $connection->query($query);
-
+			$connection->set_charset('utf8');
 			$data = $result->fetch_assoc();
 
 			$storyName = $data['storyName'];
@@ -183,7 +188,7 @@
 		<div class="w-con article-container" id="body">
 			<div class="sub-article-container ">
 				<div class="col-md-9">
-					<p class="text-article-header"><?=$storyName ?></p>
+					<h1 class="text-article-header"><?=$storyName ?></h1>
 				</div>
 				<div class="col-md-3 tag-genre">
 					<i class=<?='" '.$genreIcon.'"';?>  aria-hidden="true" ></i>		
