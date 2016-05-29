@@ -118,6 +118,9 @@ a:hover.logo-2x{
 .photo-default{
 	background-image : url(Pic/default.jpg);
 	background-size: 200px ,200px;
+	background-size:cover; 
+	background-position:center; 
+	overflow:hidden;
 }
 
 .photo-upload-size{

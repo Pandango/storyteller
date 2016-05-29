@@ -263,34 +263,32 @@
 
 			<!-- Modal upload Cover -->
 		<div class="modal fade" id="uploadCover" role="dialog">
-		<div class="modal-dialog modal-lg">
-			<form action="f_uploadCoverArticle.php" method="POST" enctype = "multipart/form-data">
-			  <div class="modal-content">
-			    <div class="modal-header">
-			      <button type="button" class="close" data-dismiss="modal">&times;</button>
-			      <h4 class="modal-title">Upload File
-			      </h4>
-			    </div>
-			    <div class="modal-body">
-			    <div class="content-container">
-			    	<div class="form-group">	    		
-						<div class="form-group">
-						<label for="exampleInputFile">Upload Cover picture</label>
-						<input id="fileImage" name="fileImage" type="file" >
-						<p class="help-block">Example block-level help text here.</p>
-					</div>
-				
-	    			
-			    </div>
-					
-			    </div>
-			    <div class="modal-footer">
-			    	<button type="submit" class="btn btn-default">Save</button>
-			     	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			    </div>
-			  </div>
-			</form>
-		</div>
+			<div class="modal-dialog modal-lg">
+				<form action="f_uploadCoverArticle.php" method="POST" enctype = "multipart/form-data">
+				  <div class="modal-content">
+				    <div class="modal-header">
+				      <button type="button" class="close" data-dismiss="modal">&times;</button>
+				      <h4 class="modal-title">Upload File
+				      </h4>
+				    </div>
+				    <div class="modal-body">
+				    <div class="content-container">
+				    	<div class="form-group">	    		
+							<div class="form-group">
+							<label for="exampleInputFile">Upload Cover picture</label>
+							<input id="fileImage" name="fileImage" type="file" >
+							<p class="help-block">Example block-level help text here.</p>
+						</div>
+				    </div>
+						
+				    </div>
+				    <div class="modal-footer">
+				    	<button type="submit" class="btn btn-default">Save</button>
+				     	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				    </div>
+				  </div>
+				</form>
+			</div>
 		</div>
 
 	</div>

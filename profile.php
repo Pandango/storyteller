@@ -4,6 +4,7 @@
 	if(isset($_SESSION['userId'])){
 		$userId = $_SESSION['userId'];	
 		require 'f_modalRegis.php';
+		require 'f_updateProfile.php';
 	}		
 ?>
 
@@ -139,7 +140,7 @@
 				<!--picture Upload-->
 					<div class="form-group" style="margin-top:70px;">
 						<div style="margin-left:35%;">
-							<img src=<?=$userPicture?> class="img-circle" style="width:200px; height:200px;">
+							<img src=<?=$userPicture?> class="img-circle" style="width:200px; height:200px; background-size:cover; background-position:center; overflow:hidden;">
 			   			</div>
 					</div>
 					<div class="content-container" style="margin-top: 30px; text-align: center;">
@@ -253,48 +254,48 @@
 
 		<!-- Modal Edit Profile -->
 		<div class="modal fade" id="editProfile" role="dialog">
-		<div class="modal-dialog modal-lg">
-			<form action="f_updateProfile.php" method="POST">
-			  <div class="modal-content">
-			    <div class="modal-header">
-			      <button type="button" class="close" data-dismiss="modal">&times;</button>
-			      <h4 class="modal-title">Edit Profile
-			      </h4>
-			    </div>
-			    <div class="modal-body">
-			    <div class="content-container">
-			    	<div class="form-group">
-						<!--picture Upload-->
-						<div class="form-group fileImage">
-							<div style="margin-left:40%;">
-								<div id="message"></div>
-								<input class="form-control" id="fileImage" name="fileImage" type="file">
-								<div id="photo-success" style=<?="background-image:url(".$userPicture.");"?> class="photo-default photo-circle-item" onclick="upload()">
-									
-									<div class="item-overlay"></div>
-									<i class="fa fa-camera fa-5x photo-icon"></i>
-									<span class="photo-des">Upload Photo</span>
-									<i class="fa fa-camera fa-3x photo-show-icon"></i>
-								</div>
+			<div class="modal-dialog modal-lg">
+				<form action="profile.php" method="POST">
+				  <div class="modal-content">
+				    <div class="modal-header">
+				      <button type="button" class="close" data-dismiss="modal">&times;</button>
+				      <h4 class="modal-title">Edit Profile
+				      </h4>
+				    </div>
+				    <div class="modal-body">
+				    <div class="content-container">
+				    	<div class="form-group">
+							<!--picture Upload-->
+							<div class="form-group fileImage" style="height:230px;">
+								<div style="margin-left:40%;">
+									<div id="message"></div>
+									<input class="form-control" id="fileImage" name="fileImage" type="file">
+									<div id="photo-success" style=<?="background-image:url(".$userPicture.")"?> class="photo-default photo-circle-item" onclick="upload()">
+										
+										<div class="item-overlay"></div>
+										<i class="fa fa-camera fa-5x photo-icon"></i>
+										<span class="photo-des">Upload Photo</span>
+										<i class="fa fa-camera fa-3x photo-show-icon"></i>
+									</div>
 
-							</div>
-				   		</div>
-					</div>
-				    <div class="form-group" style="margin-top: 30px;">
-						<p class="text-content">Description :</p>
-						<input type="text" class="form-control" name="description" placeholder="Tell your Description" value='<?php echo $description; ?>'>
-					</div>				
-	    			
-			    </div>
-					
-			    </div>
-			    <div class="modal-footer">
-			    	<button type="submit" class="btn btn-default">Save</button>
-			     	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			    </div>
-			  </div>
-			</form>
-		</div>
+								</div>
+					   		</div>
+						</div>
+					    <div class="form-group" style="margin-top: 30px;">
+							<p class="text-content">Description :</p>
+							<input type="text" class="form-control" name="description" placeholder="Tell your Description" value='<?php echo $description; ?>'>
+						</div>				
+		    			
+				    </div>
+						
+				    </div>
+				    <div class="modal-footer">
+				    	<button type="submit" class="btn btn-default">Save</button>
+				     	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				    </div>
+				  </div>
+				</form>
+			</div>
 		</div>
 
 		
@@ -361,13 +362,13 @@
 						processData:false,
 						success: function(data){
 							$('#message').html(data);
+
 							var photo = $('#photo-direction').val();
 							$('#photo-success').removeClass('photo-default');
 							$('#photo-success').attr({
 								style : 'background-image : url(' + photo + '); background-size: 200px ,200px',
 							});
-
-
+							$('#photo-success').append( "<input type='hidden' name='photoUpload' value='"+ photo +"'>" );
 						}
 				 	});
 				 }); 
